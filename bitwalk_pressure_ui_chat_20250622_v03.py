@@ -113,7 +113,7 @@ if lat and lon:
     st.subheader("🧠 Chat気圧相談")
     user_input = st.text_input("体調や気圧に関する質問を入力してください")
     if user_input:
-        st.write("🩺 **AIの応答（準備中）**: Coming soon...")
+        st.write("🩺 **AIの応答**: {response}")
 
     # --- GPT生活アドバイス ---
     st.subheader("🧘 GPT生活アドバイス")
