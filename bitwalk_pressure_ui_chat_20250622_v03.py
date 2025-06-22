@@ -6,7 +6,7 @@ import requests
 import pandas as pd
 import datetime
 import plotly.express as px
-ipmort openai
+import openai
 import os
 
 st.set_page_config(page_title="Bitwalk Pressure Advisor", layout="wide")
