@@ -137,7 +137,7 @@ if lat and lon:
     user_input = st.text_input("体調や気圧に関する質問を入力してください")
     if user_input:
         response = get_pressure_advice(user_input)  # ← 実際に関数を呼び出す
-        st.write("🩺 **AIの応答**: {response}")
+        st.write(f"🩺 **AIの応答**: {response}")
 
     # --- GPT生活アドバイス ---
     st.subheader("🧘 GPT生活アドバイス")
