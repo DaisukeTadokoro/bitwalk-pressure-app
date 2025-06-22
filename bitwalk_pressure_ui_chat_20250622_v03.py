@@ -6,13 +6,14 @@ import requests
 import pandas as pd
 import datetime
 import plotly.express as px
-import openai
+from openai import OpenAI
 import os
 
 st.set_page_config(page_title="Bitwalk Pressure Advisor", layout="wide")
 
 # --- OpenAI APIキー ---
 openai.api_key = st.secrets["OPENAI_API_KEY"] if "OPENAI_API_KEY" in st.secrets else os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=openai.api_key)  # secrets もこのキーで受け継げる
 
 # --- サイドバー設定 ---
 st.sidebar.title("🌀 Bitwalk気圧アプリ")
@@ -68,7 +69,7 @@ def generate_gpt_advice(location, pressure_wave, bitwalk_index, date_range):
     やさしく、簡潔に、生活のヒントを添えてください。
     """
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": "あなたは詩的で優しい生活アドバイザーAIです"},
