@@ -81,28 +81,6 @@ def generate_gpt_advice(location, pressure_wave, bitwalk_index, date_range):
         return response.choices[0].message.content.strip()
     except Exception as e:
         return f"AI応答エラー: {e}"
-        
-        # --- GPTによる気圧相談応答 ---
-def get_pressure_advice(user_input):
-    prompt = f"""
-    あなたは医療福祉と気圧体調の専門相談AIです。次の入力文が体調や気圧の影響と関係しているかを評価し、必要に応じて簡潔にアドバイスを返してください。
-    入力: "{user_input}"
-    出力:
-    """
-    try:
-        import openai
-        client = openai.OpenAI()  # openai>=1.0対応の形式に合わせてください
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "あなたは気圧と体調の関係に限定して相談に乗るAIです。"},
-                {"role": "user", "content": prompt}
-            ],
-            max_tokens=100
-        )
-        return response.choices[0].message.content.strip()
-    except Exception as e:
-        return f"AI応答エラー: {e}"
 
 
 # --- メイン画面 ---
@@ -136,7 +114,7 @@ if lat and lon:
     st.subheader("🧠 Chat気圧相談")
     user_input = st.text_input("体調や気圧に関する質問を入力してください")
     if user_input:
-        response = get_pressure_advice(user_input)  # ← 実際に関数を呼び出す
+        response = generate_gpt_advice(user_input)  # ← 実際に関数を呼び出す
         st.write(f"🩺 **AIの応答**: {response}")
 
     # --- GPT生活アドバイス ---
