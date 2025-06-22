@@ -6,14 +6,15 @@ import requests
 import pandas as pd
 import datetime
 import plotly.express as px
-from openai import OpenAI
+ipmort openai
 import os
 
 st.set_page_config(page_title="Bitwalk Pressure Advisor", layout="wide")
 
 # --- OpenAI APIキー ---
 openai.api_key = st.secrets["OPENAI_API_KEY"] if "OPENAI_API_KEY" in st.secrets else os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=openai.api_key)  # secrets もこのキーで受け継げる
+
+client = openai.OpenAI(api_key=your_openai_api_key) # secrets もこのキーで受け継げる
 
 # --- サイドバー設定 ---
 st.sidebar.title("🌀 Bitwalk気圧アプリ")
