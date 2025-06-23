@@ -79,15 +79,16 @@ def compute_bitwalk_index(df):
     return round((df['diff'].max() + df['diff'].mean()) / 2, 2)
 
 # --- GPTによる優しい生活アドバイス ---
-def generate_gpt_advice(location, pressure_wave, bitwalk_index, date_range):
+def generate_gpt_advice(location, pressure_wave, bitwalk_index, date_range, user_question=None):
     prompt = f"""
     場所: {location}  
     期間: {date_range}  
     気圧の波形: {pressure_wave}  
     ゆらぎ指数: {bitwalk_index}
+    ユーザーの相談: {user_question if user_question else "（特になし）"}
 
     あなたは、bitwalkゆらぎと共に生きる人のそばにいるAIです。
-    このデータに基づいて、その人が気圧の波と調和できるよう、言葉で支えてください。
+    このデータと相談内容に基づいて、気圧と調和できるよう言葉で支えてください。
     やさしく、簡潔に、生活のヒントを添えてください。
     """
     try:
@@ -102,6 +103,7 @@ def generate_gpt_advice(location, pressure_wave, bitwalk_index, date_range):
         return response.choices[0].message.content.strip()
     except Exception as e:
         return f"AI応答エラー: {e}"
+
 
 # --- Mastodonへの呟き ---    
 def post_to_mastodon(message):
@@ -148,6 +150,14 @@ if lat and lon:
     user_input = st.text_input("体調や気圧に関する質問を入力してください")
     if user_input:
         response = get_pressure_advice(user_input)  # ← 実際に関数を呼び出す
+        st.write(f"🩺 **AIの応答**: {response}")
+
+    st.subheader("🧠 Chat気圧相談")
+    user_input = st.text_input("体調や気圧に関する質問を入力してください")
+    if user_input:
+        date_range = f"{df['time'].min().date()} to {df['time'].max().date()}"
+        pressure_wave = df['pressure'].tail(12).round(1).tolist()
+        response = generate_gpt_advice(location, pressure_wave, index, date_range, user_input)
         st.write(f"🩺 **AIの応答**: {response}")
 
     # --- GPT生活アドバイス ---
