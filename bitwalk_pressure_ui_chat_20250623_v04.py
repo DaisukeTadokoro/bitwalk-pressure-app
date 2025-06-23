@@ -60,7 +60,7 @@ def get_pressure_advice(user_input):
     出力:
     """
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": "あなたは気圧と体調の関係に限定して相談に乗るAIです。"},
