@@ -147,7 +147,7 @@ if lat and lon:
     st.subheader("🧠 Chat気圧相談")
     user_input = st.text_input("体調や気圧に関する質問を入力してください")
     if user_input:
-        response = generate_pressure_advice(user_input)  # ← 実際に関数を呼び出す
+        response = get_pressure_advice(user_input)  # ← 実際に関数を呼び出す
         st.write(f"🩺 **AIの応答**: {response}")
 
     # --- GPT生活アドバイス ---
