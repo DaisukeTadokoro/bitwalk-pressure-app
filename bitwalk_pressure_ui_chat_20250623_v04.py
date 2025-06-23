@@ -149,12 +149,6 @@ if lat and lon:
     st.subheader("🧠 Chat気圧相談")
     user_input = st.text_input("体調や気圧に関する質問を入力してください")
     if user_input:
-        response = get_pressure_advice(user_input)  # ← 実際に関数を呼び出す
-        st.write(f"🩺 **AIの応答**: {response}")
-
-    st.subheader("🧠 Chat気圧相談")
-    user_input = st.text_input("体調や気圧に関する質問を入力してください")
-    if user_input:
         date_range = f"{df['time'].min().date()} to {df['time'].max().date()}"
         pressure_wave = df['pressure'].tail(12).round(1).tolist()
         response = generate_gpt_advice(location, pressure_wave, index, date_range, user_input)
