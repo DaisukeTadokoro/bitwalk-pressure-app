@@ -52,6 +52,26 @@ def fetch_pressure_data(lat, lon):
     df['time'] = pd.to_datetime(df['time'])
     return df
 
+# --- GPTによる気圧相談応答 ---
+def get_pressure_advice(user_input):
+    prompt = f"""
+    あなたは医療福祉と気圧体調の専門相談AIです。次の入力文が体調や気圧の影響と関係しているかを評価し、必要に応じて簡潔にアドバイスを返してください。
+    入力: "{user_input}"
+    出力:
+    """
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "あなたは気圧と体調の関係に限定して相談に乗るAIです。"},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=100
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        return f"AI応答エラー: {e}"
+
 # --- ゆらぎ指数とdP/dt計算 ---
 def compute_bitwalk_index(df):
     df['diff'] = df['pressure'].diff().abs()
